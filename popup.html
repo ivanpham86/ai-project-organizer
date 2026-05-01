@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      width: 280px; padding: 16px;
+      background: #16161a; color: #ffffffde;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-size: 13px;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 8px;
+      padding-bottom: 12px; border-bottom: 1px solid #2a2a35;
+      margin-bottom: 14px;
+    }
+    .logo-icon { font-size: 18px; }
+    .logo-text { font-size: 13px; font-weight: 600; color: #a78bfa; }
+    .logo-ver  { font-size: 10px; color: #555; margin-left: auto; }
+
+    .section-title {
+      font-size: 10px; color: #666;
+      text-transform: uppercase; letter-spacing: 0.8px;
+      margin-bottom: 10px;
+    }
+
+    .info-box {
+      background: #1e1e26; border: 1px solid #2e2e3a;
+      border-radius: 6px; padding: 10px 12px;
+      font-size: 11.5px; color: #888; line-height: 1.6;
+      margin-bottom: 12px;
+    }
+    .info-box strong { color: #ccc; }
+
+    .btn {
+      width: 100%; padding: 9px;
+      border-radius: 6px; border: none;
+      font-size: 12px; font-weight: 500;
+      cursor: pointer; font-family: inherit;
+      margin-bottom: 8px;
+      transition: opacity 0.15s;
+    }
+    .btn:hover { opacity: 0.85; }
+    .btn-export { background: #6c5ce7; color: #fff; }
+    .btn-import { background: #1e1e26; border: 1px solid #2e2e3a; color: #ccc; }
+
+    .divider { border: none; border-top: 1px solid #2a2a35; margin: 14px 0; }
+
+    .stat-row {
+      display: flex; justify-content: space-between;
+      font-size: 11px; color: #666; margin-bottom: 6px;
+    }
+    .stat-row span:last-child { color: #a78bfa; font-weight: 500; }
+
+    #status {
+      text-align: center; font-size: 11px;
+      color: #00b894; min-height: 16px; margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo">
+    <span class="logo-icon">⬡</span>
+    <span class="logo-text">AI Project Organizer</span>
+    <span class="logo-ver">v3.5</span>
+  </div>
+
+  <div class="section-title">Backup & Restore</div>
+
+  <div class="info-box">
+    Dữ liệu lưu <strong>100% trên máy bạn</strong>.<br>
+    Export để backup hoặc chuyển sang máy khác.
+  </div>
+
+  <button class="btn btn-export" id="btn-export">💾 Export — Lưu file backup</button>
+  <button class="btn btn-import" id="btn-import">📂 Import — Khôi phục từ file</button>
+
+  <hr class="divider">
+
+  <div class="section-title">Thống kê</div>
+  <div class="stat-row"><span>Claude</span>     <span id="stat-claude">—</span></div>
+  <div class="stat-row"><span>Gemini</span>     <span id="stat-gemini">—</span></div>
+  <div class="stat-row"><span>ChatGPT</span>    <span id="stat-chatgpt">—</span></div>
+  <div class="stat-row"><span>Snapshots</span>  <span id="stat-snaps">—</span></div>
+
+  <div id="status"></div>
+  <script src="popup.js"></script>
+</body>
+</html>

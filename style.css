@@ -1,0 +1,262 @@
+/* AI Project Organizer Ultimate v3.4 */
+
+#aipo-sidebar {
+  position: fixed; top: 0; left: 0;
+  width: 240px; height: 100vh;
+  background: #16161a;
+  border-right: 1px solid #2a2a35;
+  display: flex; flex-direction: column;
+  z-index: 2147483647;
+  box-shadow: 4px 0 24px rgba(0,0,0,0.4);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-size: 13px; color: #ffffffde;
+  transition: transform 0.25s cubic-bezier(0.4,0,0.2,1);
+}
+#aipo-sidebar.aipo-hidden { transform: translateX(-244px); }
+
+/* Toggle button */
+#aipo-toggle {
+  position: fixed; top: 50%; left: 240px;
+  transform: translateY(-50%);
+  width: 16px; height: 44px;
+  background: #6c5ce7; border: none;
+  border-radius: 0 8px 8px 0;
+  color: #fff; font-size: 10px; cursor: pointer;
+  z-index: 2147483646;
+  transition: left 0.25s cubic-bezier(0.4,0,0.2,1), background 0.2s;
+}
+#aipo-toggle:hover { background: #5b4bd6; }
+#aipo-sidebar.aipo-hidden ~ #aipo-toggle { left: 0; }
+
+/* ── HEADER ── */
+.aipo-header {
+  padding: 10px 10px 0;
+  border-bottom: 1px solid #2a2a35;
+  display: flex; flex-direction: column; gap: 7px;
+  flex-shrink: 0;
+}
+.aipo-logo {
+  font-size: 11px; font-weight: 700; color: #a78bfa;
+  letter-spacing: 1px; text-transform: uppercase;
+}
+
+/* ── TABS (Phương án B) ── */
+.aipo-tabs {
+  display: flex; gap: 0;
+  border-bottom: 1px solid #2a2a35;
+  margin: 0 -10px;
+}
+.aipo-tab {
+  flex: 1; padding: 6px 4px;
+  background: transparent; border: none;
+  border-bottom: 2px solid transparent;
+  color: #555; font-size: 11px; font-weight: 500;
+  cursor: pointer; font-family: inherit;
+  transition: color 0.15s, border-bottom-color 0.15s;
+  letter-spacing: 0.3px;
+}
+.aipo-tab:hover { color: #888; }
+.aipo-tab.aipo-tab-active {
+  /* color và border-bottom-color được set inline per-tab */
+  background: transparent;
+}
+
+/* ── WORKSPACE NOTE (khi xem tab khác SITE) ── */
+.aipo-workspace-note {
+  font-size: 10.5px; color: #888;
+  background: #1a1a24;
+  border-bottom: 1px solid #2a2a35;
+  padding: 5px 10px;
+  margin: 0 -10px;
+  line-height: 1.5;
+}
+.aipo-workspace-note strong { color: #ccc; }
+
+/* ── SEARCH + BUTTONS ── */
+#aipo-search {
+  width: 100%; box-sizing: border-box;
+  padding: 6px 8px;
+  background: #1e1e26; border: 1px solid #2e2e3a;
+  border-radius: 6px; color: #ffffffde; font-size: 12px; outline: none;
+  transition: border-color 0.2s;
+  margin-bottom: 2px;
+}
+#aipo-search:focus { border-color: #6c5ce7; }
+#aipo-search::placeholder { color: #555; }
+
+.aipo-header-btns { display: flex; gap: 6px; padding-bottom: 8px; }
+.aipo-header-btns button {
+  flex: 1; padding: 5px 4px;
+  background: #1e1e26; border: 1px solid #2e2e3a;
+  border-radius: 5px; color: #ccc; font-size: 12px; cursor: pointer;
+  transition: border-color 0.15s;
+}
+.aipo-header-btns button:hover { border-color: #6c5ce7; }
+
+/* ── TREE ── */
+#aipo-tree {
+  flex: 1; overflow-y: auto; overflow-x: hidden;
+  padding: 4px 0;
+  scrollbar-width: thin; scrollbar-color: #2e2e3a transparent;
+}
+#aipo-tree::-webkit-scrollbar { width: 3px; }
+#aipo-tree::-webkit-scrollbar-thumb { background: #2e2e3a; border-radius: 3px; }
+
+.aipo-node {
+  display: flex; align-items: center; gap: 5px;
+  padding: 5px 8px; cursor: pointer;
+  border-left: 2px solid transparent;
+  transition: background 0.1s;
+  min-height: 28px;
+}
+.aipo-node:hover { background: #1e1e26; }
+
+.aipo-folder .aipo-node-name { color: #e8e8f0; font-weight: 500; }
+.aipo-chat   .aipo-node-name { color: #8888a0; font-size: 12px; }
+
+/* Chat đang mở (chỉ hiện khi xem đúng workspace) */
+.aipo-node.aipo-current {
+  background: #201e33;
+  border-left-color: #6c5ce7;
+}
+.aipo-node.aipo-current .aipo-node-name { color: #c4b5fd; }
+
+/* URL chết */
+.aipo-node.aipo-dead .aipo-node-name {
+  color: #555; text-decoration: line-through;
+}
+.aipo-node.aipo-dead .aipo-node-icon { opacity: 0.5; }
+
+.aipo-snap-dot { font-size: 8px; flex-shrink: 0; margin-left: 1px; }
+
+.aipo-node-icon { flex-shrink: 0; font-size: 13px; width: 16px; }
+
+/* Toggle arrow */
+.aipo-toggle-arrow {
+  flex-shrink: 0; width: 14px; height: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; color: #555; cursor: pointer;
+  transition: transform 0.18s ease, color 0.15s;
+  user-select: none; border-radius: 3px;
+  margin-left: -2px;
+}
+.aipo-toggle-arrow:hover { color: #a78bfa; background: #2a2a35; }
+.aipo-toggle-arrow.aipo-arrow-open { transform: rotate(90deg); color: #888; }
+.aipo-toggle-arrow-placeholder { flex-shrink: 0; width: 14px; }
+
+/* Badge số con khi thu gọn */
+.aipo-child-count {
+  flex-shrink: 0; font-size: 9px;
+  padding: 1px 5px; border-radius: 8px;
+  background: #2a2a35; color: #666;
+  margin-left: 2px;
+}
+.aipo-collapsed .aipo-child-count { color: #a78bfa; background: #1e1a33; }
+.aipo-node-name {
+  flex: 1; overflow: hidden;
+  white-space: nowrap; text-overflow: ellipsis; font-size: 12.5px;
+}
+
+.aipo-node-actions { display: none; gap: 3px; flex-shrink: 0; }
+.aipo-node:hover .aipo-node-actions { display: flex; }
+
+.aipo-node-actions button {
+  padding: 1px 4px;
+  background: transparent; border: 1px solid #3a3a4a;
+  border-radius: 3px; color: #666; font-size: 10px; cursor: pointer;
+  transition: all 0.12s; line-height: 1.4;
+}
+.aipo-btn-add-sub:hover { color: #a78bfa; border-color: #a78bfa; }
+.aipo-btn-del:hover     { color: #ff6b6b; border-color: #ff6b6b; }
+.aipo-btn-relink:hover  { color: #00cec9; border-color: #00cec9; }
+
+/* ── SNAPSHOT PANEL ── */
+.aipo-snap-panel {
+  flex: 1; display: flex; flex-direction: column;
+  padding: 10px; gap: 8px; overflow-y: auto;
+  border-top: 1px solid #2a2a35;
+}
+.aipo-snap-panel.aipo-hidden { display: none; }
+
+.aipo-snap-panel-header {
+  display: flex; align-items: center; justify-content: space-between;
+}
+.aipo-snap-title { font-size: 12px; font-weight: 500; color: #a78bfa; }
+.aipo-snap-panel-header button {
+  background: transparent; border: none; color: #555;
+  font-size: 12px; cursor: pointer; padding: 2px 4px;
+}
+.aipo-snap-panel-header button:hover { color: #ccc; }
+
+.aipo-snap-step {
+  display: flex; gap: 8px; align-items: flex-start;
+  font-size: 11.5px; color: #888; line-height: 1.5;
+}
+.aipo-snap-step-num {
+  flex-shrink: 0; width: 18px; height: 18px;
+  background: #2a2a35; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 600; color: #a78bfa;
+}
+
+#aipo-snap-input {
+  width: 100%; box-sizing: border-box;
+  background: #1e1e26; border: 1px solid #2e2e3a;
+  border-radius: 6px; color: #ffffffde;
+  font-size: 11.5px; font-family: inherit;
+  padding: 8px; resize: none; outline: none;
+  line-height: 1.5;
+  transition: border-color 0.2s;
+}
+#aipo-snap-input:focus { border-color: #6c5ce7; }
+#aipo-snap-input::placeholder { color: #444; }
+
+/* ── EMPTY STATE ── */
+.aipo-empty {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center;
+  padding: 28px 20px; color: #555; text-align: center; gap: 8px;
+}
+.aipo-empty-icon { font-size: 26px; opacity: 0.4; }
+.aipo-empty p { font-size: 12px; line-height: 1.6; }
+.aipo-empty strong { color: #888; }
+
+/* ── FOOTER ── */
+.aipo-footer {
+  padding: 10px 8px; border-top: 1px solid #2a2a35;
+  display: flex; flex-direction: column; gap: 5px; flex-shrink: 0;
+}
+.aipo-btn-row { display: flex; gap: 5px; }
+
+.aipo-btn-primary, .aipo-btn-secondary, .aipo-btn-icon {
+  flex: 1; padding: 7px 4px;
+  border-radius: 5px; font-size: 11px; cursor: pointer;
+  transition: all 0.15s; font-weight: 500;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+.aipo-btn-primary  { background: #6c5ce7; border: none; color: #fff; }
+.aipo-btn-primary:hover  { background: #5b4bd6; }
+.aipo-btn-primary.aipo-btn-waiting { background: #2d6a4f; animation: aipo-pulse 1.5s ease-in-out infinite; }
+@keyframes aipo-pulse { 0%,100%{opacity:1} 50%{opacity:.7} }
+.aipo-btn-secondary { background: #1e1e26; border: 1px solid #2e2e3a; color: #ccc; }
+.aipo-btn-secondary:hover { border-color: #6c5ce7; }
+.aipo-btn-icon { background: #1e1e26; border: 1px solid #2e2e3a; color: #ccc; font-size: 14px; }
+.aipo-btn-icon:hover { border-color: #6c5ce7; }
+
+/* ── TOAST ── */
+#aipo-toast {
+  position: absolute; bottom: -50px; left: 8px; right: 8px;
+  padding: 7px 10px;
+  background: #1e1e26; border: 1px solid #2e2e3a;
+  border-radius: 7px; font-size: 11.5px; color: #ffffffde;
+  text-align: center;
+  transition: bottom 0.3s cubic-bezier(0.4,0,0.2,1), opacity 0.3s;
+  opacity: 0; pointer-events: none; z-index: 10;
+}
+#aipo-toast.aipo-toast-show { bottom: 74px; opacity: 1; }
+
+/* ── PUSH PAGE CONTENT ── */
+body:has(#aipo-sidebar:not(.aipo-hidden)) {
+  margin-left: 240px !important;
+  transition: margin-left 0.25s cubic-bezier(0.4,0,0.2,1);
+}
