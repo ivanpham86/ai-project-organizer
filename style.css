@@ -14,6 +14,31 @@
 }
 #aipo-sidebar.aipo-hidden { transform: translateX(-244px); }
 
+/* Khi ở trang danh sách Claude — thu sidebar thành thanh nhỏ bên trái
+   để không che sidebar chat list gốc của Claude */
+#aipo-sidebar.aipo-list-page {
+  width: 42px;
+  overflow: hidden;
+}
+#aipo-sidebar.aipo-list-page .aipo-header,
+#aipo-sidebar.aipo-list-page #aipo-tree,
+#aipo-sidebar.aipo-list-page .aipo-footer,
+#aipo-sidebar.aipo-list-page #aipo-snap-panel {
+  opacity: 0;
+  pointer-events: none;
+}
+#aipo-sidebar.aipo-list-page::after {
+  content: '⬡';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 18px;
+  color: #a78bfa;
+  opacity: 0.6;
+}
+/* Toggle button theo sát width mới */
+body:has(#aipo-sidebar.aipo-list-page) #aipo-toggle { left: 42px; }
+
 /* Toggle button */
 #aipo-toggle {
   position: fixed; top: 50%; left: 240px;

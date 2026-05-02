@@ -19,6 +19,21 @@ const SITE = window.location.hostname.includes('gemini')
 // ── Tab đang được xem trong sidebar (mặc định = trang hiện tại) ──
 let activeTab = SITE;
 
+// ── Detect xem URL hiện tại có phải 1 chat cụ thể không ──
+// Claude:   /chat/uuid
+// Gemini:   /app/uuid  hoặc  /u/0/app/uuid
+// ChatGPT:  /c/uuid
+const CHAT_URL_PATTERNS = {
+  claude:  /\/chat\/[a-zA-Z0-9-]+/,
+  gemini:  /\/(u\/\d+\/)?app\/[a-zA-Z0-9]+/,
+  chatgpt: /\/c\/[a-zA-Z0-9-]+/,
+};
+
+function isInChatPage() {
+  const pattern = CHAT_URL_PATTERNS[SITE];
+  return pattern ? pattern.test(window.location.pathname) : true;
+}
+
 // ── Storage key theo namespace ──
 const TREE_KEY = site => `projectTree_${site}`;
 const SNAP_KEY = site => `snapshots_${site}`;
@@ -138,6 +153,44 @@ function initSidebar() {
   setActiveTab(SITE);   // auto-focus đúng tab trang hiện tại
   attachEvents();
   runCompatibilityCheck();
+  updateChatPageState();  // cập nhật trạng thái nút theo URL hiện tại
+  watchUrlChanges();      // theo dõi URL thay đổi (SPA navigation)
+}
+
+// Theo dõi URL thay đổi trên SPA (Claude/Gemini/ChatGPT đều là SPA)
+function watchUrlChanges() {
+  let lastUrl = window.location.href;
+  const obs   = new MutationObserver(() => {
+    if (window.location.href !== lastUrl) {
+      lastUrl = window.location.href;
+      updateChatPageState();
+    }
+  });
+  obs.observe(document.body, { childList: true, subtree: true });
+}
+
+// Cập nhật trạng thái sidebar theo URL hiện tại
+function updateChatPageState() {
+  const inChat  = isInChatPage();
+  const addBtn  = document.getElementById('aipo-add-chat');
+  const sidebar = document.getElementById('aipo-sidebar');
+  if (!addBtn || !sidebar) return;
+
+  if (inChat) {
+    // Đang trong chat → nút bình thường
+    addBtn.disabled = false;
+    addBtn.title    = 'Gán chat đang mở vào thư mục';
+    addBtn.style.opacity = '1';
+    // Nếu sidebar đang ẩn do trang list → hiện lại
+    sidebar.classList.remove('aipo-list-page');
+  } else {
+    // Đang ở trang danh sách (không phải chat cụ thể)
+    addBtn.disabled = true;
+    addBtn.title    = `Hãy mở 1 đoạn chat ${SITE_LABEL[SITE]} trước, rồi nhấn 💬+ để gán`;
+    addBtn.style.opacity = '0.4';
+    // Thu sidebar lại để không che sidebar gốc của Claude
+    if (SITE === 'claude') sidebar.classList.add('aipo-list-page');
+  }
 }
 
 // ============================================================
@@ -369,6 +422,11 @@ function handleContextInvalidated(err) {
 // [C1] GÁN CHAT HIỆN TẠI — chỉ gán vào workspace của SITE
 // ============================================================
 async function assignCurrentChat() {
+  // Guard: phải đang trong 1 chat cụ thể mới gán được
+  if (!isInChatPage()) {
+    showToast(`⚠️ Hãy mở 1 đoạn chat ${SITE_LABEL[SITE]} trước rồi nhấn 💬+`);
+    return;
+  }
   // Nếu đang xem tab khác → tự chuyển về SITE trước khi gán
   if (activeTab !== SITE) {
     setActiveTab(SITE);
