@@ -62,10 +62,15 @@ chrome://extensions
 
 #### Tạo thư mục & gán chat
 
-1. Mở một đoạn chat bất kỳ trên Claude/Gemini/ChatGPT
-2. Nhấn **📁** trong sidebar để tạo thư mục mới
+1. Nhấn **📁** trong sidebar để tạo thư mục mới
+2. Mở một đoạn chat bất kỳ trên Claude/Gemini/ChatGPT
 3. Nhấn **💬+** để gán chat đang mở vào thư mục
 4. Đặt tên có ý nghĩa (ví dụ: "Chrome Extension", "Marketing Q2")
+
+> **⚠️ Lưu ý riêng với Claude:**  
+> Claude có trang danh sách chat riêng (`claude.ai/chats`). Khi bạn đang ở trang này, sidebar AIPO tự thu nhỏ để không che danh sách — nút **💬+** sẽ bị mờ và không thể nhấn.  
+> **Cách gán:** Click vào đúng đoạn chat muốn gán → URL đổi thành `claude.ai/chat/xxx` → lúc này sidebar mở rộng lại → nhấn **💬+** để gán bình thường.  
+> Gemini và ChatGPT không có vấn đề này.
 
 #### Snapshot & Resume (chuyển máy)
 
@@ -181,10 +186,15 @@ chrome://extensions
 
 #### Create folders & assign chats
 
-1. Open any chat on Claude/Gemini/ChatGPT
-2. Click **📁** in the sidebar to create a new folder
+1. Click **📁** in the sidebar to create a new folder
+2. Open any chat on Claude/Gemini/ChatGPT
 3. Click **💬+** to assign the current chat to a folder
 4. Name it something meaningful (e.g. "Chrome Extension", "Q2 Marketing")
+
+> **⚠️ Claude-specific note:**  
+> Claude has a dedicated chat list page (`claude.ai/chats`). When you're on that page, the AIPO sidebar automatically collapses so it doesn't cover Claude's own list — the **💬+** button will be dimmed and disabled.  
+> **How to assign:** Click into the specific chat you want → the URL changes to `claude.ai/chat/xxx` → the sidebar expands automatically → click **💬+** to assign.  
+> Gemini and ChatGPT don't have this limitation.
 
 #### Snapshot & Resume (cross-device)
 
